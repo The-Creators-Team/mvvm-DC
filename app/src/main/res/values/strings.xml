@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">MVVM_WEEK#4</string>
+    <string name="user_image">User Image</string>
+    <string name="get_user">Get User!</string>
+</resources>
