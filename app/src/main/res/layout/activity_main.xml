@@ -13,42 +13,17 @@
         android:layout_height="240dp"
         android:layout_marginBottom="24dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/tvText"
+        app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
-        android:id="@+id/ivUser"
-        android:layout_width="240dp"
-        android:layout_height="240dp"
-        android:layout_marginBottom="24dp"
-        android:visibility="gone"
-        android:scaleType="centerCrop"
-        android:contentDescription="@string/user_image"
-        app:layout_constraintBottom_toTopOf="@+id/tvText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/tvText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="24dp"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Hello World!" />
-
-    <Button
-        android:id="@+id/btnGetCocktail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/get_user"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvText" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_Cocktails"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        tools:layout_editor_absoluteX="117dp"
+        tools:layout_editor_absoluteY="1dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

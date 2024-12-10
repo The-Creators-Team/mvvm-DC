@@ -7,15 +7,14 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.bumptech.glide.Glide
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.creators.mvvm_week4.R
 import com.creators.mvvm_week4.databinding.ActivityMainBinding
+import com.creators.mvvm_week4.ui.adapter.CocktailAdapater
 import com.creators.mvvm_week4.ui.viewmodel.CocktailViewmodel
 import com.creators.mvvm_week4.util.ResponseState
 import com.creators.myapilearning.data.model.CocktailModel
 import dagger.hilt.android.AndroidEntryPoint
-
-//import com.creators.myapilearning.databinding.ActivityMainBinding
 
 
 @AndroidEntryPoint
@@ -34,9 +33,6 @@ class CocktailActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        binding.btnGetCocktail.setOnClickListener {
-            viewmodel.fetchCocktail()
-        }
 
         viewmodel.cocktailModel.observe(this, { response ->
             when (response) {
@@ -45,42 +41,30 @@ class CocktailActivity : AppCompatActivity() {
                 is ResponseState.Fail -> updateFailUI(response.error)
             }
         })
-
         viewmodel.fetchCocktail()
     }
 
     private fun updateLoadingUI() {
         binding.apply {
             progressCircular.visibility = View.VISIBLE
-            ivUser.visibility = View.GONE
-            tvText.text = "Loading. . ."
         }
     }
 
     private fun updateFailUI(error: String) {
         binding.apply {
             progressCircular.visibility = View.GONE
-            ivUser.visibility = View.VISIBLE
-            tvText.text = error
+
         }
     }
 
     private fun updateSuccessUI(response: CocktailModel) {
         binding.apply {
             progressCircular.visibility = View.GONE
-            ivUser.visibility = View.VISIBLE
-            Glide.with(this@CocktailActivity)
-                .load(response.drinks?.get(0)?.strDrinkThumb)
-                .placeholder(R.drawable.ic_launcher_foreground) //in case of loading or buffering
-                .error(R.drawable.ic_launcher_background) //in case of failure
-                .into(ivUser)
-
-            tvText.text =
-                "${response?.drinks?.get(0)?.idDrink?.first()}, \n${response?.drinks?.get(0)?.strAlcoholic}, \n${
-                    response?.drinks?.get(
-                        0
-                    )?.strDrink
-                }"
+            binding.rvCocktails.apply {
+                val cocktailList = response.drinks
+                layoutManager = LinearLayoutManager(context)
+                adapter = CocktailAdapater(cocktailList)
+            }
         }
     }
 }
