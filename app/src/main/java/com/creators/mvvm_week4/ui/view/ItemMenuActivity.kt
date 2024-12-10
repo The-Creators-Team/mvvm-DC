@@ -9,39 +9,42 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.creators.mvvm_week4.R
-import com.creators.mvvm_week4.databinding.ActivityMainBinding
-import com.creators.mvvm_week4.ui.adapter.CocktailAdapater
-import com.creators.mvvm_week4.ui.viewmodel.CocktailViewmodel
+import com.creators.mvvm_week4.data.model.ItemMenu
+import com.creators.mvvm_week4.databinding.ActivityItemMenuBinding
+import com.creators.mvvm_week4.ui.adapter.ItemMenuAdapater
+import com.creators.mvvm_week4.ui.viewmodel.ItemMenuViewModel
 import com.creators.mvvm_week4.util.ResponseState
+import com.creators.mvvm_week4.util.ResponseStateItemMenu
 import com.creators.myapilearning.data.model.CocktailModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class CocktailActivity : AppCompatActivity() {
+class ItemMenuActivity : AppCompatActivity() {
 
-    val viewmodel: CocktailViewmodel by viewModels()
-    lateinit var binding: ActivityMainBinding
+    val viewmodel: ItemMenuViewModel by viewModels()
+    lateinit var binding: ActivityItemMenuBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityItemMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.cocktail)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.item_menu)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        viewmodel.cocktailModel.observe(this, { response ->
+        viewmodel.itemmenuModel.observe(this, { response ->
             when (response) {
-                is ResponseState.Loading -> updateLoadingUI()
-                is ResponseState.Success -> updateSuccessUI(response.result)
-                is ResponseState.Fail -> updateFailUI(response.error)
+                is ResponseStateItemMenu.Loading -> updateLoadingUI()
+                is ResponseStateItemMenu.Success -> updateSuccessUI(response.result.data)
+                is ResponseStateItemMenu.Fail -> updateFailUI(response.error)
             }
         })
-        viewmodel.fetchCocktail()
+        viewmodel.fetchItemMenu()
     }
 
     private fun updateLoadingUI() {
@@ -56,13 +59,12 @@ class CocktailActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateSuccessUI(response: CocktailModel) {
+    private fun updateSuccessUI(response: List<ItemMenu>) {
         binding.apply {
             progressCircular.visibility = View.GONE
-            binding.rvCocktails.apply {
-                val cocktailList = response.drinks
+            binding.rvItemMenu.apply {
                 layoutManager = LinearLayoutManager(context)
-                adapter = CocktailAdapater(cocktailList)
+                adapter = ItemMenuAdapater(response)
             }
         }
     }
