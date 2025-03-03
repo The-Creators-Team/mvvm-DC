@@ -13,9 +13,7 @@ import com.creators.mvvm_week4.data.model.ItemMenu
 import com.creators.mvvm_week4.databinding.ActivityItemMenuBinding
 import com.creators.mvvm_week4.ui.adapter.ItemMenuAdapater
 import com.creators.mvvm_week4.ui.viewmodel.ItemMenuViewModel
-import com.creators.mvvm_week4.util.ResponseState
 import com.creators.mvvm_week4.util.ResponseStateItemMenu
-import com.creators.myapilearning.data.model.CocktailModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -30,6 +28,7 @@ class ItemMenuActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityItemMenuBinding.inflate(layoutInflater)
+
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.item_menu)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())

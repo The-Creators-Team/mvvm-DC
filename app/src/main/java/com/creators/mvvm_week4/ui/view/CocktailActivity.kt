@@ -17,7 +17,8 @@ import com.creators.myapilearning.data.model.CocktailModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
-@AndroidEntryPoint
+
+
 class CocktailActivity : AppCompatActivity() {
 
     val viewmodel: CocktailViewmodel by viewModels()
